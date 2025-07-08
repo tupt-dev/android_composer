@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tupt.audio_composer.data.ProductRepository
 import com.tupt.audio_composer.model.Product
+import com.tupt.audio_composer.network.NetworkResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +31,7 @@ class HomeViewModel : ViewModel() {
     }
 
     /**
-     * Load all products from the repository
+     * Load all products from the repository (local data)
      */
     private fun loadProducts() {
         viewModelScope.launch {
@@ -46,6 +47,52 @@ class HomeViewModel : ViewModel() {
                 _uiState.value = HomeUiState.Error("Failed to load products: ${e.message}")
                 Log.d(TAG, "Setting isRefreshing to false (error case)")
                 _isRefreshing.value = false // Stop refreshing on error
+            }
+        }
+    }
+
+    /**
+     * Load products from API
+     */
+    fun loadProductsFromApi() {
+        viewModelScope.launch {
+            repository.getAllProductsFromApi().collect { result ->
+                when (result) {
+                    is NetworkResult.Loading -> {
+                        _uiState.value = HomeUiState.Loading
+                    }
+                    is NetworkResult.Success -> {
+                        Log.d(TAG, "API Success: ${result.data}")
+                        _uiState.value = HomeUiState.Success(result.data)
+                        _isRefreshing.value = false
+                    }
+                    is NetworkResult.Error -> {
+                        Log.e(TAG, "API Error: ${result.message}")
+                        _uiState.value = HomeUiState.Error(result.message)
+                        _isRefreshing.value = false
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Search products from API
+     */
+    fun searchProducts(query: String) {
+        viewModelScope.launch {
+            repository.searchProducts(query).collect { result ->
+                when (result) {
+                    is NetworkResult.Loading -> {
+                        _uiState.value = HomeUiState.Loading
+                    }
+                    is NetworkResult.Success -> {
+                        _uiState.value = HomeUiState.Success(result.data)
+                    }
+                    is NetworkResult.Error -> {
+                        _uiState.value = HomeUiState.Error(result.message)
+                    }
+                }
             }
         }
     }
