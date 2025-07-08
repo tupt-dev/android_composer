@@ -41,11 +41,10 @@ android {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
             buildConfigField("String", "BASE_URL", "\"https://api-dev.example.com/\"")
-            buildConfigField("String", "API_KEY", "\"dev_api_key_12345\"")
+            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: "dev_api_key_12345"}\"")
             buildConfigField("boolean", "ENABLE_LOGGING", "true")
             buildConfigField("String", "ENVIRONMENT", "\"DEVELOPMENT\"")
             buildConfigField("String", "COINMARKET_BASE_URL", "\"https://sandbox-api.coinmarketcap.com/v1/\"")
-            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: ""}\"")
             resValue("string", "app_name", "Audio Composer (Dev)")
         }
 
@@ -54,22 +53,20 @@ android {
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
             buildConfigField("String", "BASE_URL", "\"https://api-staging.example.com/\"")
-            buildConfigField("String", "API_KEY", "\"staging_api_key_456\"")
+            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: "staging_api_key_456"}\"")
             buildConfigField("boolean", "ENABLE_LOGGING", "true")
             buildConfigField("String", "ENVIRONMENT", "\"STAGING\"")
-            buildConfigField("String", "COINMARKET_BASE_URL", "https://sandbox-api.coinmarketcap.com/v1/")
-            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: ""}\"")
+            buildConfigField("String", "COINMARKET_BASE_URL", "\"https://sandbox-api.coinmarketcap.com/v1/\"")
             resValue("string", "app_name", "Audio Composer (Staging)")
         }
 
         create("prod") {
             dimension = "environment"
             buildConfigField("String", "BASE_URL", "\"https://api.example.com/\"")
-            buildConfigField("String", "API_KEY", "\"prod_api_key_67890\"")
+            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: "prod_api_key_67890"}\"")
             buildConfigField("boolean", "ENABLE_LOGGING", "false")
             buildConfigField("String", "ENVIRONMENT", "\"PRODUCTION\"")
-            buildConfigField("String", "COINMARKET_BASE_URL", "https://sandbox-api.coinmarketcap.com/v1/")
-            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: ""}\"")
+            buildConfigField("String", "COINMARKET_BASE_URL", "\"https://pro-api.coinmarketcap.com/v1/\"")
             resValue("string", "app_name", "Audio Composer")
         }
     }

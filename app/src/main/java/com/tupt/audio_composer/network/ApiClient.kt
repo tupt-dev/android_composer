@@ -57,7 +57,7 @@ object ApiClient {
         .build()
 
     private val retrofitCoinMarket = Retrofit.Builder()
-        .baseUrl(ApiConfig.COINMARKET_BASE_URL)
+        .baseUrl(ApiConfig.COIN_MARKET_BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
@@ -66,9 +66,6 @@ object ApiClient {
 
     var coinMarketApiService: CoinMarketApiService = retrofitCoinMarket.create(CoinMarketApiService::class.java)
 
-    /**
-     * Get current environment info for debugging
-     */
     fun getEnvironmentInfo(): String {
         return "Environment: ${ApiConfig.ENVIRONMENT}\n" +
                "Base URL: ${ApiConfig.BASE_URL}\n" +

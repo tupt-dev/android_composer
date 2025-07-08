@@ -15,7 +15,7 @@ object ApiConfig {
     /**
      * Base URL for CoinMarketCap API
      */
-    const val COIN_MARKET_BASE_URL: String = BuildConfig.COIN_MARKET_BASE_URL
+    const val COIN_MARKET_BASE_URL: String = BuildConfig.COINMARKET_BASE_URL
 
     /**
      * API Key from BuildConfig (should be stored securely in production)
@@ -55,15 +55,15 @@ object ApiConfig {
     /**
      * Check if current environment is development
      */
-    const val isDevelopment: Boolean = ENVIRONMENT == "DEVELOPMENT"
+    val isDevelopment: Boolean = ENVIRONMENT == "DEVELOPMENT"
 
     /**
      * Check if current environment is staging
      */
-    const val isStaging: Boolean = ENVIRONMENT == "STAGING"
+    val isStaging: Boolean = ENVIRONMENT == "STAGING"
 
     /**
      * Check if current environment is production
      */
-    const val isProduction: Boolean = ENVIRONMENT == "PRODUCTION"
+    val isProduction: Boolean = ENVIRONMENT == "PRODUCTION"
 }
