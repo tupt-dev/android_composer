@@ -44,7 +44,7 @@ android {
             buildConfigField("String", "API_KEY", "\"dev_api_key_12345\"")
             buildConfigField("boolean", "ENABLE_LOGGING", "true")
             buildConfigField("String", "ENVIRONMENT", "\"DEVELOPMENT\"")
-            buildConfigField("String", "COINMARKET_BASE_URL", "https://sandbox-api.coinmarketcap.com/v1/")
+            buildConfigField("String", "COINMARKET_BASE_URL", "\"https://sandbox-api.coinmarketcap.com/v1/\"")
             buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: ""}\"")
             resValue("string", "app_name", "Audio Composer (Dev)")
         }
