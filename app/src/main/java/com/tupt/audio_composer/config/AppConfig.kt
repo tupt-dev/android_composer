@@ -9,7 +9,7 @@ import com.tupt.audio_composer.BuildConfig
 object AppConfig {
     const val BASE_URL = BuildConfig.BASE_URL
     const val API_KEY = BuildConfig.API_KEY
-    const val COINMARKET_BASE_URL = BuildConfig.COINMARKET_BASE_URL
+    const val COIN_MARKET_BASE_URL = BuildConfig.COINMARKET_BASE_URL
     const val ENVIRONMENT = BuildConfig.ENVIRONMENT
     const val ENABLE_LOGGING = BuildConfig.ENABLE_LOGGING
 

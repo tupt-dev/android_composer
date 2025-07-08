@@ -1,3 +1,4 @@
+import com.google.android.libraries.mapsplatform.secrets_gradle_plugin.SecretsPluginExtension.Companion.defaultPropertiesFile
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -5,6 +6,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 fun loadProperties(filename: String): Properties? {
@@ -19,7 +21,6 @@ fun loadProperties(filename: String): Properties? {
     return null
 }
 
-val keystoreProperties = loadProperties("secrets.properties")
 android {
     namespace = "com.tupt.audio_composer"
     compileSdk = 35
@@ -40,34 +41,26 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            buildConfigField("String", "BASE_URL", "\"https://api-dev.example.com/\"")
-            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: "dev_api_key_12345"}\"")
-            buildConfigField("boolean", "ENABLE_LOGGING", "true")
-            buildConfigField("String", "ENVIRONMENT", "\"DEVELOPMENT\"")
-            buildConfigField("String", "COINMARKET_BASE_URL", "\"https://sandbox-api.coinmarketcap.com/v1/\"")
             resValue("string", "app_name", "Audio Composer (Dev)")
+            buildConfigField("boolean", "ENABLE_LOGGING", "true")
+            buildConfigField("String","ENVIRONMENT", "\"DEVELOPMENT\"")
         }
 
         create("staging") {
             dimension = "environment"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-            buildConfigField("String", "BASE_URL", "\"https://api-staging.example.com/\"")
-            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: "staging_api_key_456"}\"")
-            buildConfigField("boolean", "ENABLE_LOGGING", "true")
-            buildConfigField("String", "ENVIRONMENT", "\"STAGING\"")
-            buildConfigField("String", "COINMARKET_BASE_URL", "\"https://sandbox-api.coinmarketcap.com/v1/\"")
             resValue("string", "app_name", "Audio Composer (Staging)")
+            buildConfigField("boolean", "ENABLE_LOGGING", "true")
+            buildConfigField("String","ENVIRONMENT", "\"STAGING\"")
+
         }
 
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "BASE_URL", "\"https://api.example.com/\"")
-            buildConfigField("String", "API_KEY", "\"${keystoreProperties?.getProperty("api_key") ?: "prod_api_key_67890"}\"")
-            buildConfigField("boolean", "ENABLE_LOGGING", "false")
-            buildConfigField("String", "ENVIRONMENT", "\"PRODUCTION\"")
-            buildConfigField("String", "COINMARKET_BASE_URL", "\"https://pro-api.coinmarketcap.com/v1/\"")
             resValue("string", "app_name", "Audio Composer")
+            buildConfigField("boolean", "ENABLE_LOGGING", "false")
+            buildConfigField("String","ENVIRONMENT", "\"PRODUCTION\"")
         }
     }
 
@@ -83,6 +76,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -95,6 +89,19 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+    secrets {
+        productFlavors  {
+            getByName("dev") {
+                defaultPropertiesFileName = "dev.properties"
+            }
+            getByName("staging") {
+                defaultPropertiesFileName = "staging.properties"
+            }
+            getByName("prod") {
+                defaultPropertiesFileName = "production.properties"
+            }
+        }
     }
 }
 
