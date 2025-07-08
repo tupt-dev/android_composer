@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.tupt.audio_composer.DrawerContent
 import com.tupt.audio_composer.model.Product
 import com.tupt.audio_composer.navigation.AppRoute
 import com.tupt.audio_composer.viewmodel.HomeUiState
@@ -90,8 +89,9 @@ fun HomeScreen(
         ) { paddingValues ->
             Column(
                 modifier = Modifier
-                    .padding(paddingValues)
-                    .padding(16.dp)
+                    .fillMaxSize()
+                    .padding(top = paddingValues.calculateTopPadding())
+                    .padding(horizontal = 16.dp)
             ) {
                 PullToRefreshBox(
                     isRefreshing = isRefreshing,
@@ -124,6 +124,9 @@ fun HomeScreen(
                                 ) {
                                     items(state.products) { product ->
                                         ProductItem(product = product) {
+                                            Log.d(_TAG, "Product clicked: ${product.id}")
+                                            // Navigate to detail screen with product ID
+                                            // Uncomment the line below when detail screen is implemented
                                             navController.navigate(AppRoute.detailRoute(product.id))
                                         }
                                     }
