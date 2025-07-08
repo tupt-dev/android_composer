@@ -1,5 +1,6 @@
 package com.tupt.audio_composer.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -8,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -26,16 +29,6 @@ fun SettingsScreen(
 
     Scaffold(
     modifier = Modifier.fillMaxSize(),
-    topBar = {
-        TopAppBar(
-            title = { Text("Settings") },
-            navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                }
-            }
-        )
-    },
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -104,4 +97,18 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.weight(1f))
         }
     }
+}
+
+@SuppressLint("ViewModelConstructorInComposable")
+@Preview
+@Composable
+fun SettingsScreenPreview() {
+    val context = LocalContext.current
+    val viewModel = SettingsViewModel(context = context).apply {
+        toggleDarkMode()
+    }
+    SettingsScreen(
+        navController = NavController(context = context),
+        settingsViewModel = viewModel
+    )
 }

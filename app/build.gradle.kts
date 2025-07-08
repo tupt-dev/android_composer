@@ -128,6 +128,7 @@ dependencies {
     // Add experimental Material 3 for pull-to-refresh
     implementation(libs.androidx.material3.android)
     implementation(libs.material3)
+    implementation(libs.androidx.security.crypto)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

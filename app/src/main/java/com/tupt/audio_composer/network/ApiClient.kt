@@ -1,6 +1,7 @@
 package com.tupt.audio_composer.network
 
 import com.google.gson.GsonBuilder
+import com.google.gson.Strictness
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit
 object ApiClient {
 
     private val gson = GsonBuilder()
-        .setLenient()
+        .setStrictness(Strictness.LENIENT)
         .create()
 
     /**

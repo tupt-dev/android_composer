@@ -10,6 +10,10 @@ object AppRoute {
     const val HOME = "home"
     const val DETAIL = "detail/{productId}"
     const val SETTINGS = "settings"
+    // New routes from NavigationScreen
+    const val COMPOSER = "composer"
+    const val LIBRARY = "library"
+    const val RECORD = "record"
 
     // Helper function to create detail route with product ID
     fun detailRoute(productId: String) = "detail/$productId"
@@ -18,6 +22,9 @@ object AppRoute {
         return when {
             route == HOME -> "Audio Composer"
             route == SETTINGS -> "Settings"
+            route == COMPOSER -> "Composer"
+            route == LIBRARY -> "Library"
+            route == RECORD -> "Record"
             route == DETAIL || route?.startsWith("detail/") == true -> "Product Details"
             else -> "Audio Composer"
         }
@@ -29,6 +36,9 @@ object AppRoute {
         return when (route) {
             HOME -> "Audio Composer"
             SETTINGS -> "Settings"
+            COMPOSER -> "Composer"
+            LIBRARY -> "Library"
+            RECORD -> "Record"
             DETAIL -> {
                 // For detail screen, extract the productId from arguments
                 val productId = navBackStackEntry.arguments?.getString("productId")
