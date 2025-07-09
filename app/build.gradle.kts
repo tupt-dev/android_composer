@@ -136,6 +136,7 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.material3)
     implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.benchmark.common)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

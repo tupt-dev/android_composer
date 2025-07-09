@@ -7,11 +7,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.tupt.audio_composer.screens.ComposerScreen
 import com.tupt.audio_composer.screens.DetailScreen
 import com.tupt.audio_composer.screens.HomeScreen
-import com.tupt.audio_composer.screens.LibraryScreen
-import com.tupt.audio_composer.screens.RecordScreen
+import com.tupt.audio_composer.screens.MarketScreen
 import com.tupt.audio_composer.screens.SettingsScreen
 import com.tupt.audio_composer.viewmodel.SettingsViewModel
 
@@ -43,16 +41,8 @@ fun AppNavigation(
             SettingsScreen(navController, settingsViewModel)
         }
 
-        composable(AppRoute.COMPOSER) {
-            ComposerScreen()
-        }
-
-        composable(AppRoute.LIBRARY) {
-            LibraryScreen()
-        }
-
-        composable(AppRoute.RECORD) {
-            RecordScreen()
+        composable(AppRoute.MARKET) {
+            MarketScreen(navController)
         }
     }
 }

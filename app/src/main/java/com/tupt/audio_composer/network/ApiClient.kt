@@ -2,6 +2,7 @@ package com.tupt.audio_composer.network
 
 import com.google.gson.GsonBuilder
 import com.google.gson.Strictness
+import com.tupt.audio_composer.config.AppConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,9 +22,12 @@ object ApiClient {
     private val authInterceptor = Interceptor { chain ->
         val original = chain.request()
         val requestBuilder = original.newBuilder()
-            .header("Authorization", "Bearer ${ApiConfig.API_KEY}")
+//            .header("Authorization", "Bearer ${ApiConfig.API_KEY}")
             .header("Content-Type", "application/json")
             .header("Accept", "application/json")
+        if (chain.request().url.toString().startsWith(ApiConfig.COIN_MARKET_BASE_URL)) {
+            requestBuilder.header("X-CMC_PRO_API_KEY", AppConfig.API_KEY)
+        }
         val request = requestBuilder.build()
         chain.proceed(request)
     }
@@ -67,13 +71,4 @@ object ApiClient {
 
     var coinMarketApiService: CoinMarketApiService = retrofitCoinMarket.create(CoinMarketApiService::class.java)
 
-    fun getEnvironmentInfo(): String {
-        return "Environment: ${ApiConfig.ENVIRONMENT}\n" +
-               "Base URL: ${ApiConfig.BASE_URL}\n" +
-               "Logging: ${ApiConfig.ENABLE_LOGGING}\n" +
-               "Debug: ${ApiConfig.isDebug}\n" +
-               "Is Development: ${ApiConfig.isDevelopment}\n" +
-               "Is Staging: ${ApiConfig.isStaging}\n" +
-               "Is Production: ${ApiConfig.isProduction}"
-    }
 }

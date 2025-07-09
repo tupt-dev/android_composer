@@ -5,15 +5,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -30,7 +29,7 @@ sealed class NavigationItem(
     val title: String
 ) {
     object Home : NavigationItem(AppRoute.HOME, Icons.Default.Home, "Home")
-    object Composer : NavigationItem(AppRoute.COMPOSER, Icons.Default.Person, "Composer")
+    object Market : NavigationItem(AppRoute.MARKET, Icons.Default.ShoppingCart, "Market")
     object Settings : NavigationItem(AppRoute.SETTINGS, Icons.Default.Settings, "Settings")
 }
 
@@ -63,7 +62,7 @@ fun MainScreen(settingsViewModel: SettingsViewModel) {
 fun BottomNavigation(navController: NavController) {
     val items = listOf(
         NavigationItem.Home,
-        NavigationItem.Composer,
+        NavigationItem.Market,
         NavigationItem.Settings
     )
 
@@ -92,68 +91,5 @@ fun BottomNavigation(navController: NavController) {
                 }
             )
         }
-    }
-}
-
-@Composable
-fun ComposerScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Composer Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            text = "Nơi tạo nhạc và sáng tác",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-    }
-}
-
-@Composable
-fun LibraryScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Library Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            text = "Thư viện nhạc của bạn",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-    }
-}
-
-@Composable
-fun RecordScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Record Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            text = "Ghi âm và thu âm",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(top = 8.dp)
-        )
     }
 }

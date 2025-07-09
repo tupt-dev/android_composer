@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.tupt.audio_composer.config.ApiConfig
+import com.tupt.audio_composer.config.AppConfig
 
 object SecureStorage {
 
@@ -20,7 +20,7 @@ object SecureStorage {
 
     // Initialize secure storage
     fun getSecurePreferences(context: Context): SharedPreferences {
-        return if (ApiConfig.isProduction) {
+        return if (AppConfig.isProduction()) {
             // Sử dụng encrypted preferences trong production
             val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
@@ -120,7 +120,7 @@ object SecureStorage {
 
     // Environment-specific settings
     fun saveEnvironmentSetting(context: Context, key: String, value: String) {
-        val prefs = if (ApiConfig.isProduction) {
+        val prefs = if (AppConfig.isProduction()) {
             getSecurePreferences(context)
         } else {
             getRegularPreferences(context)
@@ -130,31 +130,12 @@ object SecureStorage {
     }
 
     fun getEnvironmentSetting(context: Context, key: String): String? {
-        val prefs = if (ApiConfig.isProduction) {
+        val prefs = if (AppConfig.isProduction()) {
             getSecurePreferences(context)
         } else {
             getRegularPreferences(context)
         }
 
         return prefs.getString("env_$key", null)
-    }
-
-    // Debug helpers
-    fun getStorageInfo(context: Context): String {
-        return if (ApiConfig.isDebugMode()) {
-            buildString {
-                appendLine("=== STORAGE INFO ===")
-                appendLine("Using encrypted storage: ${ApiConfig.isProduction}")
-                appendLine("User authenticated: ${isUserAuthenticated(context)}")
-                appendLine("Has API token: ${!getApiToken(context).isNullOrEmpty()}")
-                appendLine("Has refresh token: ${!getRefreshToken(context).isNullOrEmpty()}")
-                appendLine("User ID: ${getUserId(context) ?: "Not set"}")
-                appendLine("Device ID: ${getDeviceId(context) ?: "Not set"}")
-                appendLine("Last sync: ${getLastSyncTime(context)}")
-                appendLine("==================")
-            }
-        } else {
-            "Storage info not available in production"
-        }
     }
 }

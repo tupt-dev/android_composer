@@ -1,9 +1,9 @@
 package com.tupt.audio_composer.environment
 
-import com.tupt.audio_composer.config.ApiConfig
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.util.Log
+import com.tupt.audio_composer.config.AppConfig
 
 object EnvironmentManager {
 
@@ -29,70 +29,12 @@ object EnvironmentManager {
 
     // Get current environment
     fun getCurrentEnvironment(): Environment {
-        return Environment.fromString(ApiConfig.ENVIRONMENT)
+        return Environment.fromString(AppConfig.ENVIRONMENT)
     }
 
     // Check if app is debuggable
     fun isDebuggable(context: Context): Boolean {
         return (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
-    }
-
-    // Environment-specific configurations
-    fun getEnvironmentConfig(): EnvironmentConfig {
-        return when (getCurrentEnvironment()) {
-            Environment.DEVELOPMENT -> EnvironmentConfig(
-                name = "Development",
-                baseUrl = ApiConfig.BASE_URL,
-                loggingEnabled = true,
-                strictMode = false,
-                mockData = true,
-                analyticsEnabled = false,
-                crashReportingEnabled = false
-            )
-            Environment.STAGING -> EnvironmentConfig(
-                name = "Staging",
-                baseUrl = ApiConfig.BASE_URL,
-                loggingEnabled = true,
-                strictMode = true,
-                mockData = false,
-                analyticsEnabled = true,
-                crashReportingEnabled = true
-            )
-            Environment.PRODUCTION -> EnvironmentConfig(
-                name = "Production",
-                baseUrl = ApiConfig.BASE_URL,
-                loggingEnabled = false,
-                strictMode = true,
-                mockData = false,
-                analyticsEnabled = true,
-                crashReportingEnabled = true
-            )
-        }
-    }
-
-    // Initialize environment-specific settings
-    fun initializeEnvironment(context: Context) {
-        val config = getEnvironmentConfig()
-
-        if (ApiConfig.isDebugMode()) {
-            Log.d(TAG, "=== ENVIRONMENT INITIALIZATION ===")
-            Log.d(TAG, "Environment: ${config.name}")
-            Log.d(TAG, "Base URL: ${config.baseUrl}")
-            Log.d(TAG, "Logging: ${config.loggingEnabled}")
-            Log.d(TAG, "Strict Mode: ${config.strictMode}")
-            Log.d(TAG, "Mock Data: ${config.mockData}")
-            Log.d(TAG, "Analytics: ${config.analyticsEnabled}")
-            Log.d(TAG, "Crash Reporting: ${config.crashReportingEnabled}")
-            Log.d(TAG, "App Debuggable: ${isDebuggable(context)}")
-            Log.d(TAG, "=================================")
-        }
-
-        // Initialize based on environment
-        when (getCurrentEnvironment()) {
-            Environment.DEVELOPMENT -> initializeDevelopment(context)
-            Environment.STAGING -> initializeStaging(context)
-            Environment.PRODUCTION -> initializeProduction(context)
-        }
     }
 
     private fun initializeDevelopment(context: Context) {
@@ -150,7 +92,7 @@ object EnvironmentManager {
     }
 
     private fun logEnvironmentInfo(message: String) {
-        if (ApiConfig.isDebugMode()) {
+        if (AppConfig.isDebugMode()) {
             Log.i(TAG, message)
         }
     }

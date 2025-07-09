@@ -11,7 +11,7 @@ object AppRoute {
     const val DETAIL = "detail/{productId}"
     const val SETTINGS = "settings"
     // New routes from NavigationScreen
-    const val COMPOSER = "composer"
+    const val MARKET = "market"
     const val LIBRARY = "library"
     const val RECORD = "record"
 
@@ -22,7 +22,7 @@ object AppRoute {
         return when {
             route == HOME -> "Audio Composer"
             route == SETTINGS -> "Settings"
-            route == COMPOSER -> "Composer"
+            route == MARKET -> "Market"
             route == LIBRARY -> "Library"
             route == RECORD -> "Record"
             route == DETAIL || route?.startsWith("detail/") == true -> "Product Details"
@@ -36,7 +36,7 @@ object AppRoute {
         return when (route) {
             HOME -> "Audio Composer"
             SETTINGS -> "Settings"
-            COMPOSER -> "Composer"
+            MARKET -> "Market"
             LIBRARY -> "Library"
             RECORD -> "Record"
             DETAIL -> {

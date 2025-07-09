@@ -26,7 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.tupt.audio_composer.config.ApiConfig
+import com.tupt.audio_composer.config.AppConfig
+import com.tupt.audio_composer.network.ApiConfig
 
 
 // Keep existing drawer content for compatibility
@@ -48,7 +49,7 @@ fun DrawerContent(
         )
 
         // Environment info for debug
-        if (ApiConfig.isDebugMode()) {
+        if (AppConfig.isDebugMode()) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -63,7 +64,7 @@ fun DrawerContent(
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
-                        text = "Debug Mode: ${ApiConfig.isDebugMode()}",
+                        text = "Debug Mode: ${AppConfig.isDebugMode()}",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
