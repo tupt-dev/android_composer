@@ -1,8 +1,7 @@
 package com.tupt.audio_composer.viewmodel
 
-import android.R
+import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tupt.audio_composer.data.CoinMarketRepository
@@ -12,8 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MarketViewModel : ViewModel() {
-    private val coinMarketRepository = CoinMarketRepository()
+class MarketViewModel(context: Context) : ViewModel() {
+    private val coinMarketRepository = CoinMarketRepository(context)
 
     private val _uiState: MutableStateFlow<MarketUiState> = MutableStateFlow(MarketUiState.Loading)
     val uiState: StateFlow<MarketUiState> = _uiState.asStateFlow()
@@ -39,8 +38,6 @@ class MarketViewModel : ViewModel() {
 
 sealed class MarketUiState {
     object Loading : MarketUiState()
-    data class Success(val data: List<CryptoCurrency>) : MarketUiState() // Replace String with actual data type
+    data class Success(val currencies: List<CryptoCurrency>) : MarketUiState()
     data class Error(val message: String) : MarketUiState()
 }
-
-

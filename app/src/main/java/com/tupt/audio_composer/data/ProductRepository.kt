@@ -1,5 +1,6 @@
 package com.tupt.audio_composer.data
 
+import android.content.Context
 import com.tupt.audio_composer.model.Product
 import com.tupt.audio_composer.model.SampleProducts
 import com.tupt.audio_composer.network.ApiClient
@@ -12,9 +13,7 @@ import kotlinx.coroutines.flow.flow
 /**
  * Repository that handles product data operations
  */
-class ProductRepository {
-
-    private val apiService = ApiClient.apiService
+class ProductRepository(private val context: Context) {
 
     /**
      * Get all products from API
@@ -22,7 +21,7 @@ class ProductRepository {
     fun getAllProductsFromApi(): Flow<NetworkResult<List<Product>>> = flow {
         emit(NetworkResult.Loading())
         val result = safeApiCall {
-            apiService.getProducts()
+            ApiClient.apiServiceCaching(context).getProducts()
         }
         emit(result)
     }
@@ -30,43 +29,43 @@ class ProductRepository {
     /**
      * Get a single product by ID from API
      */
-    fun getProductByIdFromApi(id: Int): Flow<NetworkResult<Product>> = flow {
+    fun getProductByIdFromApi(productId: Int): Flow<NetworkResult<Product>> = flow {
         emit(NetworkResult.Loading())
         val result = safeApiCall {
-            apiService.getProductById(id)
+            ApiClient.apiServiceCaching(context).getProductById(productId)
         }
         emit(result)
     }
 
     /**
-     * Create a new product
+     * Create a new product via API
      */
-    fun createProduct(product: Product): Flow<NetworkResult<Product>> = flow {
+    fun createProductViaApi(product: Product): Flow<NetworkResult<Product>> = flow {
         emit(NetworkResult.Loading())
         val result = safeApiCall {
-            apiService.createProduct(product)
+            ApiClient.apiServiceCaching(context).createProduct(product)
         }
         emit(result)
     }
 
     /**
-     * Update an existing product
+     * Update an existing product via API
      */
-    fun updateProduct(id: Int, product: Product): Flow<NetworkResult<Product>> = flow {
+    fun updateProductViaApi(productId: Int, product: Product): Flow<NetworkResult<Product>> = flow {
         emit(NetworkResult.Loading())
         val result = safeApiCall {
-            apiService.updateProduct(id, product)
+            ApiClient.apiServiceCaching(context).updateProduct(productId, product)
         }
         emit(result)
     }
 
     /**
-     * Delete a product
+     * Delete a product via API
      */
-    fun deleteProduct(id: Int): Flow<NetworkResult<Unit>> = flow {
+    fun deleteProductViaApi(productId: Int): Flow<NetworkResult<Unit>> = flow {
         emit(NetworkResult.Loading())
         val result = safeApiCall {
-            apiService.deleteProduct(id)
+            ApiClient.apiServiceCaching(context).deleteProduct(productId)
         }
         emit(result)
     }
@@ -77,7 +76,7 @@ class ProductRepository {
     fun searchProducts(query: String): Flow<NetworkResult<List<Product>>> = flow {
         emit(NetworkResult.Loading())
         val result = safeApiCall {
-            apiService.searchProducts(query)
+            ApiClient.apiServiceCaching(context).searchProducts(query)
         }
         emit(result)
     }

@@ -1,5 +1,6 @@
 package com.tupt.audio_composer.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,9 +15,9 @@ import kotlinx.coroutines.launch
 /**
  * ViewModel for the home screen that manages the list of products
  */
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val context: Context) : ViewModel() {
     private val TAG: String = this::class.java.simpleName
-    private val repository = ProductRepository()
+    private val repository = ProductRepository(context)
 
     // UI state
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)

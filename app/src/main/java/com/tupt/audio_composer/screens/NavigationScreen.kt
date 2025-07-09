@@ -1,5 +1,6 @@
 package com.tupt.audio_composer.screens
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -34,7 +35,7 @@ sealed class NavigationItem(
 }
 
 @Composable
-fun MainScreen(settingsViewModel: SettingsViewModel) {
+fun MainScreen(settingsViewModel: SettingsViewModel, context: Context) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -51,7 +52,7 @@ fun MainScreen(settingsViewModel: SettingsViewModel) {
     ) { innerPadding ->
         AppNavigation(
             navController = navController,
-            settingsViewModel = settingsViewModel,
+            context = context,
             modifier = Modifier
                 .padding(bottom = if (showBottomBar) innerPadding.calculateBottomPadding() else 0.dp)
         )

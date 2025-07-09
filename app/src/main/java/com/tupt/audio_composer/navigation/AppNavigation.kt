@@ -1,5 +1,6 @@
 package com.tupt.audio_composer.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,12 +12,11 @@ import com.tupt.audio_composer.screens.DetailScreen
 import com.tupt.audio_composer.screens.HomeScreen
 import com.tupt.audio_composer.screens.MarketScreen
 import com.tupt.audio_composer.screens.SettingsScreen
-import com.tupt.audio_composer.viewmodel.SettingsViewModel
 
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    settingsViewModel: SettingsViewModel,
+    context: Context,
     modifier: Modifier = Modifier
 ) {
     NavHost(
@@ -38,7 +38,7 @@ fun AppNavigation(
         }
 
         composable(AppRoute.SETTINGS) {
-            SettingsScreen(navController, settingsViewModel)
+            SettingsScreen(navController)
         }
 
         composable(AppRoute.MARKET) {

@@ -1,5 +1,6 @@
 package com.tupt.audio_composer.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,8 +14,11 @@ import kotlinx.coroutines.launch
 /**
  * ViewModel for the detail screen that manages a single product
  */
-class DetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
-    private val repository = ProductRepository()
+class DetailViewModel(
+    savedStateHandle: SavedStateHandle,
+    private val context: Context
+) : ViewModel() {
+    private val repository = ProductRepository(context)
 
     // Get the product ID from the saved state handle (navigation arguments)
     private val productId: String = checkNotNull(savedStateHandle["productId"])
@@ -33,10 +37,10 @@ class DetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
     private fun loadProduct() {
         viewModelScope.launch {
             repository.getProductById(productId).collect { product ->
-                if (product != null) {
-                    _uiState.value = DetailUiState.Success(product)
+                _uiState.value = if (product != null) {
+                    DetailUiState.Success(product)
                 } else {
-                    _uiState.value = DetailUiState.Error("Product not found")
+                    DetailUiState.Error("Product not found")
                 }
             }
         }

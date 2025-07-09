@@ -22,7 +22,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.tupt.audio_composer.model.Product
 import com.tupt.audio_composer.navigation.AppRoute
@@ -34,8 +37,19 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel = HomeViewModel()
 ) {
+    val context = LocalContext.current
+    val viewModel: HomeViewModel = viewModel(
+        factory = remember {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    @Suppress("UNCHECKED_CAST")
+                    return HomeViewModel(context) as T
+                }
+            }
+        }
+    )
+
     val _TAG = "HomeScreen"
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
@@ -209,5 +223,7 @@ private fun formatDuration(seconds: Int): String {
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(navController = NavController(context = LocalContext.current))
+    HomeScreen(
+        navController = NavController(context = LocalContext.current),
+    )
 }

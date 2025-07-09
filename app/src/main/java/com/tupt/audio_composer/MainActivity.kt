@@ -1,5 +1,6 @@
 package com.tupt.audio_composer
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val settingsViewModel = remember { SettingsViewModel(this@MainActivity) }
+            val settingsViewModel = remember { SettingsViewModel(application) }
             val darkMode by settingsViewModel.darkMode.collectAsStateWithLifecycle()
             window.statusBarColor = if (darkMode) {
                 Black.toArgb()
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
             }
             Audio_composerTheme(darkTheme = darkMode) {
                 // Use MainScreen with bottom navigation
-                MainScreen(settingsViewModel = settingsViewModel)
+                MainScreen( context = this@MainActivity, settingsViewModel = settingsViewModel)
             }
         }
     }
